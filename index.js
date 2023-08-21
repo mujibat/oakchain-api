@@ -6,7 +6,6 @@ import router from './router/route.js'
 import connect from './database/index.js'
 
 const app = express()
-
 app.use(cors())
 app.use(morgan('tiny'))
 app.use(express.json())
