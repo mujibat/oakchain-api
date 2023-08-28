@@ -3,9 +3,8 @@ import jwt from 'jsonwebtoken'
 
 export const signinUser = async (req, res) => {
   const { wallet_address } = req.body
-
+  console.log(req.body, wallet_address)
   try {
-    console.log(req.body, wallet_address)
     if (!wallet_address) {
       return res
         .status(400)
