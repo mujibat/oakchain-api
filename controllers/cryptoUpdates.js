@@ -29,6 +29,6 @@ export const fetchCryptoData = async (req, res) => {
         return res.status(200).json({ data: coinsWithPrices });
     } catch (error) {
         console.error('Error:', error);
-        return res.status(500).json({ error: 'An error occurred while fetching data' });
+        return res.status(500).json({ error: error ?? 'An error occurred while fetching data' });
     }
 };
