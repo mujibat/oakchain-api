@@ -17,7 +17,7 @@ export const signinUser = async (req, res) => {
     const accessToken = jwt.sign(
       { wallet_address },
       secretKey,
-      { expiresIn: '1h' } // Set token expiration to 1 hour
+      { expiresIn: '30d' }
     )
     if (userExisted) {
       return res.json('200', {
@@ -100,6 +100,41 @@ export const updateUser = async (req, res) => {
   } catch (err) {
     console.log(err)
     return res.status(500).json({ success: false, message: err })
+  }
+}
+
+export const getLoggedinUser = async (req, res) => {
+  const { wallet_address } = req.query
+  console.log(req.body, wallet_address)
+  try {
+    if (!wallet_address) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Wallet not provided!' })
+    }
+
+    const userExisted = await userModel.findOne({ wallet_address })
+    if (userExisted) {
+      return res.json('200', {
+        success: true,
+        message: 'Fectched user details successfully',
+        data: {
+          user: userExisted,
+        }
+      })
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      })
+    }
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    })
+    // throw new Error(err)
   }
 }
 
