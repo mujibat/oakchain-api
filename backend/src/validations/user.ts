@@ -2,28 +2,8 @@ import joi from './imports';
 import { cohortList } from '../service';
 
 const user = {
-  async validateUserOnboarding(payload: any) {
-    const schema = joi.object({
-      email: joi.string().email().required().label('Email is required'),
-      otp: joi
-        .number()
-        .integer()
-        .min(99999)
-        .max(999999)
-        .optional()
-        .label('Please input a valid otp.'),
-    });
-    const { error } = schema.validate(payload);
-    if (error) throw error.details[0].context.label;
-    return true;
-  },
   async validateCreateUser(payload: any) {
     const schema = joi.object({
-      cohortId: joi
-        .string()
-        .valid(...cohortList)
-        .required()
-        .label('Cohort ID is required. See admin for valid cohort IDs'),
       username: joi.string().required().label('Username is required'),
       firstname: joi.string().optional().label('Firstname is required'),
       lastname: joi.string().optional().label('Lastname is required'),
