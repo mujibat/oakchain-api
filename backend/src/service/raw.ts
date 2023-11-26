@@ -17,10 +17,10 @@ export const superAdmin = {
   cohortId: 'Cohort I',
 };
 
-const students = [];
+const usersList = [];
 
 for (let i = 0; i < 120; i++) {
-  students.push({
+  usersList.push({
     email: `user${i + 1}@gmail.com`,
     password: 'password',
     username: `user${i + 1}`,
@@ -34,4 +34,4 @@ for (let i = 0; i < 120; i++) {
   });
 }
 
-export const users = [...students];
+export const users = [...usersList];

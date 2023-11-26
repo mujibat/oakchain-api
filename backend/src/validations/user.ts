@@ -1,5 +1,4 @@
 import joi from './imports';
-import { cohortList } from '../service';
 
 const user = {
   async validateCreateUser(payload: any) {
