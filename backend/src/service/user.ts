@@ -1,5 +1,5 @@
 import User from '../models/user';
-import { StatusCode, RegisterType, UpdateUserType, Cohort, UserQueryType } from '../@types';
+import { StatusCode, RegisterType, UpdateUserType, UserQueryType } from '../@types';
 import { ApiError } from '../utils';
 import { Toolbox } from '../utils';
 

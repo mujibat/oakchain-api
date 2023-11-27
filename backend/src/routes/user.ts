@@ -9,7 +9,7 @@ import {
 import { UserMiddleware, AuthenticationsMiddleware, UploadsMiddleware } from '../middleware';
 
 const router = Router();
-const { inspectUpdateUser, inspectOnboardingRequest } = UserMiddleware;
+const { inspectUpdateUser } = UserMiddleware;
 const { authorize } = AuthenticationsMiddleware;
 
 router.post('/logout');

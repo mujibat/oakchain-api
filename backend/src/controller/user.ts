@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import {
-  Cohort,
   GenericAnyType,
   ResponseCode,
   StatusCode,
@@ -9,7 +8,7 @@ import {
 } from '../@types';
 import { Toolbox, sendEmail } from '../utils';
 import { env } from '../config';
-import { PreboardService, UserService } from '../service';
+import { UserService } from '../service';
 import { customAlphabet } from 'nanoid';
 import { numbers } from 'nanoid-dictionary';
 import { verify } from '../mailTemplates/verify';
@@ -275,34 +274,6 @@ export async function uploadImage(req: Request, res: Response) {
     return res.status(StatusCode.OK).json({
       status: !!ResponseCode.SUCCESS,
       message: 'Image uploaded successfully',
-      data: updatedUser,
-    });
-  } catch (error: GenericAnyType) {
-    return res.status(StatusCode.INTERNAL_SERVER_ERROR).json({
-      status: !!ResponseCode.FAILURE,
-      message: error.message || error,
-    });
-  }
-}
-
-export async function approveOnboarders(req: Request, res: Response) {
-  try {
-    const { userId } = req.params;
-    const { requestStatus } = req.body;
-
-    const updatedUser = await UserService.updateUser(userId, {
-      requestStatus,
-    });
-
-    if (!updatedUser)
-      return res.status(StatusCode.NOT_FOUND).json({
-        status: !!ResponseCode.FAILURE,
-        message: 'User not found',
-      });
-
-    return res.status(StatusCode.OK).json({
-      status: !!ResponseCode.SUCCESS,
-      message: 'User updated successfully',
       data: updatedUser,
     });
   } catch (error: GenericAnyType) {

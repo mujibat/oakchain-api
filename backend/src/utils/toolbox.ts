@@ -52,8 +52,6 @@ const Tools = {
   createQuery(query: any, data: UserQueryType): any {
     if (data.role) query['role.' + data.role] = true;
 
-    if (data.cohortId) query.cohortId = data.cohortId;
-
     if (data.requestStatus) query.requestStatus = data.requestStatus;
 
     if (data.firstName) query.firstName = data.firstName;
@@ -69,8 +67,6 @@ const Tools = {
     if (data.state) query.state = data.state;
 
     if (data.country) query.country = data.country;
-
-    if (data.isBlocked) query.isBlocked = !!Number(data.isBlocked);
 
     if (data.userId) query._id = data.userId;
 
