@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema(
       super: { type: Boolean, default: false },
       admin: { type: Boolean, default: false },
       user: { type: Boolean, default: true },
-      student: { type: Boolean, default: false },
+      guest: { type: Boolean, default: false },
     },
     socialLinks: {
       twitter: { type: String },
@@ -55,10 +55,6 @@ const UserSchema = new mongoose.Schema(
       github: { type: String },
     },
     about: String,
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    },
     token: String,
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true }

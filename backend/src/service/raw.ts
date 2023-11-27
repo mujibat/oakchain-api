@@ -10,7 +10,7 @@ export const superAdmin = {
     super: true,
     admin: true,
     user: false,
-    student: false,
+    guest: false,
   },
   requestStatus: 'approved',
   isActive: true,
@@ -28,7 +28,7 @@ for (let i = 0; i < 120; i++) {
       super: false,
       admin: false,
       user: i < 50 ? false : true,
-      student: true,
+      guest: true,
     },
     isActive: true,
   });

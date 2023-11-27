@@ -8,11 +8,6 @@ import cookieParser from 'cookie-parser';
 import { env } from './config';
 import routes from './routes';
 
-const swaggerUi = require('swagger-ui-express');
-// import swaggerUi from "swagger-ui-express";
-const swaggerDocument = require('./docs/swagger.json');
-// import swaggerDocument from "./docs/swagger.json";
-
 const production = env.NODE_ENV === 'LIVE';
 
 const app = express();
@@ -44,9 +39,6 @@ if (!production) {
 
 app.use(express.static('assets'));
 app.use('/api', routes);
-
-// API Documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //greet
 app.get('/', (req: Request, res: Response) => {

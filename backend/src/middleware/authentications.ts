@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 import User from '../models/user';
 import { ResponseCode } from '../@types';
-import { ApiError, StatusCode, Toolbox } from '../utils';
+import { StatusCode, Toolbox } from '../utils';
 
 const { verifyToken } = Toolbox;
 
