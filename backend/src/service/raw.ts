@@ -14,7 +14,6 @@ export const superAdmin = {
   },
   requestStatus: 'approved',
   isActive: true,
-  cohortId: 'Cohort I',
 };
 
 const usersList = [];

@@ -1,7 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import { mongoose } from './imports';
 import readingTime from 'reading-time';
 
-const articlesSchema = new Schema({
+const articlesSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,

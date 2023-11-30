@@ -1,11 +1,5 @@
 import { Request, Response } from 'express';
-import {
-  GenericAnyType,
-  ResponseCode,
-  StatusCode,
-  UserInterface,
-  UserQueryType,
-} from '../@types';
+import { GenericAnyType, ResponseCode, StatusCode, UserInterface, UserQueryType } from '../@types';
 import { Toolbox, sendEmail } from '../utils';
 import { env } from '../config';
 import { UserService } from '../service';
