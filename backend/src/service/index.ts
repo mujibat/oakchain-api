@@ -1,5 +1,5 @@
 import UserService from './user';
-import IssueService from './issues';
+import IssueService from './issue';
 
-export { UserService };
+export { UserService, IssueService };
 export * from './raw';

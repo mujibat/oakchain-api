@@ -1,4 +1,4 @@
 import userValidations from './user';
-import issueValidations from './issues';
+import issueValidations from './issue';
 
 export { userValidations, issueValidations };

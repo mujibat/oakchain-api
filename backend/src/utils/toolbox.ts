@@ -3,6 +3,7 @@ import { Request } from 'express';
 import { env } from '../config';
 import ApiError from './apiError';
 import { UserQueryType } from '../@types/user';
+import { IssueQueryType } from '../@types';
 
 const { NODE_ENV, SECRET } = env;
 
@@ -49,7 +50,7 @@ const Tools = {
     return Math.floor(100000 + Math.random() * 900000);
   },
 
-  createQuery(query: any, data: UserQueryType): any {
+  createUserQuery(query: any, data: UserQueryType): any {
     if (data.role) query['role.' + data.role] = true;
 
     if (data.requestStatus) query.requestStatus = data.requestStatus;
@@ -69,6 +70,20 @@ const Tools = {
     if (data.country) query.country = data.country;
 
     if (data.userId) query._id = data.userId;
+
+    return query;
+  },
+
+  async CreateIssueQuery(query: any, data: IssueQueryType): Promise<any> {
+    if (data.status) query.status = data.status;
+
+    if (data.priority) query.priority = data.priority;
+
+    if (data.issueType) query.issueType = data.issueType;
+
+    if (data.assignee) query.assignee = data.assignee;
+
+    if (data.reporter) query.reporter = data.reporter;
 
     return query;
   },

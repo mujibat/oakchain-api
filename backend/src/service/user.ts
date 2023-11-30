@@ -3,7 +3,7 @@ import { StatusCode, RegisterType, UpdateUserType, UserQueryType } from '../@typ
 import { ApiError } from '../utils';
 import { Toolbox } from '../utils';
 
-const { createQuery } = Toolbox;
+const { createUserQuery } = Toolbox;
 
 class UserService {
   async createUser(userData: RegisterType) {
@@ -101,7 +101,7 @@ class UserService {
 
   getAllUsers = async (data: UserQueryType) => {
     try {
-      const query = createQuery({}, data);
+      const query = createUserQuery({}, data);
       const limit = Number(data.limit) || 10;
       const page = Number(data.page) || 0;
 

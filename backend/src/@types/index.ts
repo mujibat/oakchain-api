@@ -1,5 +1,7 @@
 export * from './user';
 
+export * from './issue';
+
 export enum StatusCode {
   OK = 200,
   CREATED = 201,

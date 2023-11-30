@@ -22,6 +22,7 @@ const IssueSchema = new mongoose.Schema(
       type: String,
       enum: ['open', 'closed'],
       required: true,
+      default: 'open',
     },
     priority: {
       type: String,
@@ -56,4 +57,4 @@ const IssueSchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true }
 );
 
-export default mongoose.model('Issues', IssueSchema);
+export default mongoose.model('Issue', IssueSchema);

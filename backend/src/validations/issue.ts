@@ -7,7 +7,6 @@ const issue = {
       description: joi.string().required().label('Invalid Description'),
       thumbnail: joi.string().label('Invalid Thumbnail'),
       issueType: joi.string().required().label('Invalid Issue Type'),
-      status: joi.string().valid('open', 'closed').required().label('Invalid Status'),
       priority: joi.string().required().label('Invalid Priority'),
       assignee: joi.string().required().label('Invalid Assignee'),
       reporter: joi.string().required().label('Invalid Reporter'),
