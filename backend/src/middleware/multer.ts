@@ -1,11 +1,13 @@
 import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import { cloudinary } from '../config';
+import { SAMSON_CONFIGS } from 'sm-pkjs/dist';
+
+const { cloudinary } = SAMSON_CONFIGS;
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary.v2,
   params: {
-    folder: 'impact app users',
+    folder: 'oakchain app users',
     allowed_formats: ['jpg', 'jpeg', 'png'],
     resource_type: 'auto',
     max_file_size: 5000000, // 5 MB in bytes

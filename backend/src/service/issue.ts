@@ -1,9 +1,10 @@
 import Issue from '../models/issue';
+import { SAMSON_UTILS } from 'sm-pkjs/dist';
 import { StatusCode, CreateIssueType, UpdateIssueType, IssueQueryType } from '../@types';
-import { ApiError } from '../utils';
-import { Toolbox } from '../utils';
+import OAK_TOOLS from '../utils/toolbox';
 
-const { createUserQuery } = Toolbox;
+const { ApiError } = SAMSON_UTILS;
+const { createIssueQuery } = OAK_TOOLS;
 
 class IssueService {
   async createIssue(issueData: CreateIssueType) {
@@ -70,7 +71,7 @@ class IssueService {
 
   getAllIssues = async (data: IssueQueryType) => {
     try {
-      const query = createUserQuery({}, data);
+      const query = createIssueQuery({}, data);
       const limit = Number(data.limit) || 10;
       const page = Number(data.page) || 0;
 

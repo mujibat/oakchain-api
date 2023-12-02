@@ -1,6 +1,8 @@
-import { env } from '../config';
+import { SAMSON_CONFIGS } from 'sm-pkjs/dist';
 
-const { SUPER_ADMIN_EMAIL, SUPER_ADMIN_PASSWORD, SUPER_ADMIN_USERNAME } = env;
+const {
+  env: { SUPER_ADMIN_EMAIL, SUPER_ADMIN_PASSWORD, SUPER_ADMIN_USERNAME },
+} = SAMSON_CONFIGS;
 
 export const superAdmin = {
   email: SUPER_ADMIN_EMAIL,

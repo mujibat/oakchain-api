@@ -1,15 +1,19 @@
 import { Request, Response } from 'express';
 import { GenericAnyType, ResponseCode, StatusCode, UserInterface, UserQueryType } from '../@types';
-import { Toolbox, sendEmail } from '../utils';
-import { env } from '../config';
+import { SAMSON_CONFIGS, SAMSON_UTILS } from 'sm-pkjs/dist';
 import { UserService } from '../service';
 import { customAlphabet } from 'nanoid';
 import { numbers } from 'nanoid-dictionary';
 import { verify } from '../mailTemplates/verify';
 
 const nanoid = customAlphabet(numbers, 6);
-const { createToken } = Toolbox;
-const { FRONTEND_URL, NODE_ENV } = env;
+const {
+  Toolbox: { createToken },
+  sendEmail,
+} = SAMSON_UTILS;
+const {
+  env: { FRONTEND_URL },
+} = SAMSON_CONFIGS;
 
 export async function createUser(req: Request, res: Response) {
   try {

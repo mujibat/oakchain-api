@@ -1,8 +1,11 @@
 import User from './user';
-import { env, logger } from '../config';
+import { SAMSON_CONFIGS } from 'sm-pkjs/dist';
 import { superAdmin, users } from '../service';
 
-const { SUPER_ADMIN_EMAIL } = env;
+const {
+  env: { SUPER_ADMIN_EMAIL },
+  logger,
+} = SAMSON_CONFIGS;
 
 export const seedSuperAdmin = async () => {
   try {

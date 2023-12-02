@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { ResponseCode, StatusCode } from '../@types';
 import { UserService } from '../service';
-import { Toolbox } from '../utils';
+import { SAMSON_UTILS } from 'sm-pkjs/dist';
 import { userValidations } from '../validations';
 
-const { verifyToken } = Toolbox;
+const {
+  Toolbox: { verifyToken },
+} = SAMSON_UTILS;
 
 const UserMiddleware = {
   async inspectCreateUser(req: Request, res: Response, next: NextFunction) {

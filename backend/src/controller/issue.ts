@@ -6,16 +6,19 @@ import {
   IssueInterface,
   IssueQueryType,
 } from '../@types';
-import { Toolbox, sendEmail } from '../utils';
-import { env } from '../config';
+import { SAMSON_CONFIGS, SAMSON_UTILS } from 'sm-pkjs/dist';
 import { IssueService } from '../service';
 import { customAlphabet } from 'nanoid';
 import { numbers } from 'nanoid-dictionary';
 import { verify } from '../mailTemplates/verify';
 
 const nanoid = customAlphabet(numbers, 6);
-const { createToken } = Toolbox;
-const { FRONTEND_URL, NODE_ENV } = env;
+const {
+  Toolbox: { createToken },
+} = SAMSON_UTILS;
+const {
+  env: { FRONTEND_URL },
+} = SAMSON_CONFIGS;
 
 export async function createIssue(req: Request, res: Response) {
   try {

@@ -1,9 +1,10 @@
 import User from '../models/user';
+import { SAMSON_UTILS } from 'sm-pkjs/dist';
 import { StatusCode, RegisterType, UpdateUserType, UserQueryType } from '../@types';
-import { ApiError } from '../utils';
-import { Toolbox } from '../utils';
+import OAK_TOOLS from '../utils/toolbox';
 
-const { createUserQuery } = Toolbox;
+const { ApiError } = SAMSON_UTILS;
+const { createUserQuery } = OAK_TOOLS;
 
 class UserService {
   async createUser(userData: RegisterType) {

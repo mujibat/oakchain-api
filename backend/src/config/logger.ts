@@ -1,5 +1,4 @@
 import { createLogger, format, transports } from 'winston';
-import moment from 'moment';
 
 const { combine, timestamp, label, printf } = format;
 

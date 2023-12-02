@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/user';
-import { ResponseCode } from '../@types';
-import { StatusCode, Toolbox } from '../utils';
+import { ResponseCode, StatusCode } from '../@types';
+import { SAMSON_UTILS } from 'sm-pkjs/dist';
 
-const { verifyToken } = Toolbox;
+const {
+  Toolbox: { verifyToken },
+} = SAMSON_UTILS;
 
 const Authentications = {
   async authenticate(req: Request, res: Response, next: NextFunction) {

@@ -5,10 +5,10 @@ import errorhandler from 'errorhandler';
 import morgan from 'morgan';
 import { rateLimit } from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
-import { env } from './config';
+import { SAMSON_CONFIGS } from 'sm-pkjs/dist';
 import routes from './routes';
 
-const production = env.NODE_ENV === 'LIVE';
+const production = SAMSON_CONFIGS.env.NODE_ENV === 'LIVE';
 
 const app = express();
 
