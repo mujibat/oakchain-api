@@ -1,4 +1,4 @@
-import { mongoose, Validator } from './imports';
+import { mongoose, Validator } from './helpers/imports';
 
 const { isEmail } = Validator;
 

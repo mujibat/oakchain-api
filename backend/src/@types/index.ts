@@ -2,6 +2,8 @@ export * from './user';
 
 export * from './issue';
 
+export * from './blog';
+
 export enum StatusCode {
   OK = 200,
   CREATED = 201,

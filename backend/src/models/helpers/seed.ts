@@ -1,6 +1,6 @@
-import User from './user';
+import User from '../user';
 import { SAMSON_CONFIGS } from 'sm-pkjs/dist';
-import { superAdmin, users } from '../service';
+import { superAdmin, users } from '../../service';
 
 const {
   env: { SUPER_ADMIN_EMAIL },

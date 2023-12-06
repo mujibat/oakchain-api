@@ -47,6 +47,16 @@ const Tools = {
 
     return query;
   },
+
+  async createBlogPostQuery(query: any, data: any): Promise<any> {
+    if (data.title) query.title = data.title;
+
+    if (data.tag) query.tag = data.tag;
+
+    if (data.authorName) query.authorName = data.authorName;
+
+    return query;
+  },
 };
 
 export default Tools;
