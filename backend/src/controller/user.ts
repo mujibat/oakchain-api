@@ -52,7 +52,19 @@ export async function logIn(req: Request, res: Response) {
 
     const user = (await UserService.getUserByEmail(email)) as unknown as UserInterface;
 
+    if (!user)
+      return res.status(StatusCode.BAD_REQUEST).json({
+        status: !!ResponseCode.FAILURE,
+        message: 'User not found',
+      });
+
     const token = createToken({ email }, '48h');
+
+    if (user.otp !== otp)
+      return res.status(StatusCode.BAD_REQUEST).json({
+        status: !!ResponseCode.FAILURE,
+        message: 'Invalid OTP',
+      });
 
     user.otp = undefined;
     user.token = token;
@@ -62,11 +74,11 @@ export async function logIn(req: Request, res: Response) {
       status: !!ResponseCode.SUCCESS,
       message: 'Logged in successfully',
       data: {
-        token,
         user,
       },
     });
   } catch (error: GenericAnyType) {
+    console.log(error);
     return res.status(error.statusCode || StatusCode.INTERNAL_SERVER_ERROR).json({
       status: !!ResponseCode.FAILURE,
       message: error.message || 'Something went wrong',
@@ -93,7 +105,7 @@ export async function getOTP(req: Request, res: Response) {
 
     await sendEmail(email as string, 'Your otp is here', message); //  todo
 
-    await UserService.updateUser(user._id.toString(), { otp: Number(otp) });
+    await UserService.updateUser(user._id.toString(), { otp });
 
     setTimeout(async () => {
       await UserService.updateUser(user._id.toString(), { otp: undefined });

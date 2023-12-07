@@ -10,7 +10,6 @@ import { SAMSON_CONFIGS, SAMSON_UTILS } from 'sm-pkjs/dist';
 import { IssueService } from '../service';
 import { customAlphabet } from 'nanoid';
 import { numbers } from 'nanoid-dictionary';
-import { verify } from '../mailTemplates/verify';
 
 const nanoid = customAlphabet(numbers, 6);
 const {

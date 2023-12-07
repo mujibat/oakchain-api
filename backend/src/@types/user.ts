@@ -19,7 +19,7 @@ export interface UserInterface extends Document {
   country: string;
   dob?: string;
   phoneNumber?: string;
-  otp?: number;
+  otp?: string;
   image?: string;
   role: {
     super?: boolean;
@@ -39,7 +39,6 @@ export interface UserInterface extends Document {
 export type RegisterType = {
   email: string;
   username: string;
-  cohortId: string;
   firstname: string;
   lastname: string;
   dob: string;
@@ -59,7 +58,7 @@ export type UpdateUserType = {
   country?: string;
   dob?: string;
   phoneNumber?: string;
-  otp?: number;
+  otp?: string;
   image?: string;
   role?: {
     super?: boolean;
