@@ -18,7 +18,7 @@ import {
 
 const router = Router();
 
-router.post('/', createBlogPost);
+router.post('/', createBlogPost); // should have a request body. all post and put request should have a request body.
 router.get('/', getAllBlogPosts);
 router.get('/:blogPostId', getBlogPost);
 router.put('/:blogPostId', updateBlogPost);

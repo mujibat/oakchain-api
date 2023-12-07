@@ -38,7 +38,7 @@ if (!production) {
 }
 
 app.use(express.static('assets'));
-app.use('/api', routes);
+app.use('/api', routes); // entry point for all the routes or endpoints
 
 //greet
 app.get('/', (req: Request, res: Response) => {

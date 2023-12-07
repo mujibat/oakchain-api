@@ -1,17 +1,8 @@
 import { Request, Response } from 'express';
-import {
-  GenericAnyType,
-  ResponseCode,
-  StatusCode,
-  IssueInterface,
-  IssueQueryType,
-} from '../@types';
+import { GenericAnyType, ResponseCode, StatusCode, IssueQueryType } from '../@types';
 import { SAMSON_CONFIGS, SAMSON_UTILS } from 'sm-pkjs/dist';
 import { IssueService } from '../service';
-import { customAlphabet } from 'nanoid';
-import { numbers } from 'nanoid-dictionary';
 
-const nanoid = customAlphabet(numbers, 6);
 const {
   Toolbox: { createToken },
 } = SAMSON_UTILS;
@@ -21,16 +12,9 @@ const {
 
 export async function createIssue(req: Request, res: Response) {
   try {
-    const { email } = req.body;
-    const token = createToken({ email }, '48h');
-    const link = `${FRONTEND_URL}/verify?token=${token}`;
-    const Issue = await IssueService.createIssue({
+    await IssueService.createIssue({
       ...req.body,
     });
-
-    // todo
-    // send a welcome mail
-    const message = `Welcome ${email}! `;
 
     return res.status(StatusCode.OK).json({
       status: !!ResponseCode.SUCCESS,
