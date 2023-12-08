@@ -1,4 +1,4 @@
-import { mongoose } from './imports';
+import { mongoose } from './helpers/imports';
 import readingTime from 'reading-time';
 
 const articlesSchema = new mongoose.Schema({

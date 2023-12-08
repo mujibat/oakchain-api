@@ -1,4 +1,4 @@
-import { mongoose, Validator } from './imports';
+import { mongoose, Validator } from './helpers/imports';
 
 const { isEmail } = Validator;
 
@@ -39,8 +39,8 @@ const UserSchema = new mongoose.Schema(
       match: [/\d{10}$/, 'Please include valid phone number'],
     },
     otp: {
-      type: Number,
-      required: [false, 'Please include otp'],
+      type: String,
+      required: [false],
     },
     image: String,
     role: {

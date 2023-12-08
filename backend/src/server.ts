@@ -2,7 +2,7 @@ import app from './index';
 import mongoose from 'mongoose';
 import { SAMSON_CONFIGS } from 'sm-pkjs/dist';
 import { AddressInfo } from 'net';
-import { seedSuperAdmin, seedUsers } from './models/seed';
+import { seedSuperAdmin, seedUsers } from './models/helpers/seed';
 
 async function startApp() {
   try {

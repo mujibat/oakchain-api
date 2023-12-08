@@ -1,4 +1,4 @@
-import { mongoose } from './imports';
+import { mongoose } from './helpers/imports';
 
 const IssueSchema = new mongoose.Schema(
   {
@@ -56,5 +56,13 @@ const IssueSchema = new mongoose.Schema(
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true }
 );
+
+IssueSchema.set('toJSON', {
+  transform: (doc: any, ret: any) => {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+  },
+});
 
 export default mongoose.model('Issue', IssueSchema);
