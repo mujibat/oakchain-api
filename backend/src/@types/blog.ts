@@ -67,6 +67,7 @@ export type CreateTagType = {
 
 export type UpdateTagType = {
   name: string;
+  blogPostId: string;
 };
 
 export type BlogPostQueryType = {

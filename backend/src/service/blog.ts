@@ -312,6 +312,20 @@ class BlogPostService {
     }
   }
 
+  async getTagById(tagId: string) {
+    try {
+      const blogTag = await BlogTagModel.findById(tagId);
+      return blogTag;
+    } catch (error) {
+      throw new ApiError(
+        'oak api',
+        error as string,
+        'getTagById',
+        StatusCode.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+
   async updateBlogLike(blogLikeId: string, blogLikeData: UpdateLikeType) {
     try {
       const blogLike = await BlogLikesModel.findByIdAndUpdate(blogLikeId, blogLikeData, {

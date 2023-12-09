@@ -203,14 +203,18 @@ export const addTagToBlogPost = async (req: Request, res: Response) => {
         message: 'Post not found',
       });
     }
-    const addedTag = await BlogService.updateTag(tagId, { blogPostId, ...req.body });
 
-    if (!addedTag) {
+    const tag = await BlogService.getTagById(tagId);
+
+    if (!tag) {
       return res.status(404).json({
         status: false,
         message: 'Tag not found',
       });
     }
+
+    await BlogService.updateTag(tagId, { name: String(tag.name), blogPostId });
+
     return res
       .status(200)
       .json({ status: true, message: 'Tag added to the blog post successfully' });
@@ -223,10 +227,21 @@ export const editTag = async (req: Request, res: Response) => {
   try {
     const { tagId } = req.params;
 
+    console.log(tagId, 'tagid');
+
     if (!mongoose.Types.ObjectId.isValid(tagId)) {
       return res.status(404).json({
         status: false,
-        message: 'Invalid tag post id',
+        message: 'Invalid tag id',
+      });
+    }
+
+    const tag = await BlogService.getTagById(tagId);
+
+    if (!tag) {
+      return res.status(404).json({
+        status: false,
+        message: 'Tag not found',
       });
     }
 
