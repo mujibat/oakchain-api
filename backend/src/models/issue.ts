@@ -42,12 +42,11 @@ const IssueSchema = new mongoose.Schema(
         {
           text: {
             type: String,
-            required: true,
+            required: [true, 'Comment text is required.'],
           },
           user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true,
+            type: String,
+            required: [true, 'Comment user is required.'],
           },
         },
       ],

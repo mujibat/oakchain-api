@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { mongoose } from '../models/helpers/imports';
 import { BlogService } from '../service';
 import { BlogPostQueryType, GenericAnyType, ResponseCode, StatusCode } from '../@types';
 
@@ -7,6 +8,8 @@ export const createBlogPost = async (req: Request, res: Response) => {
     const createdBlogPost = await BlogService.createBlogPost({
       authorId: res.locals.user.id,
       noOfLikes: 0,
+      authorName: res.locals.user.username,
+      ...req.body,
     });
 
     const blogLikes = await BlogService.createLike({
@@ -22,6 +25,7 @@ export const createBlogPost = async (req: Request, res: Response) => {
       .status(201)
       .json({ status: true, data: createdBlogPost, message: 'Blog post created successfully' });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: 'Error creating a blog post.' });
   }
 };
@@ -29,6 +33,13 @@ export const createBlogPost = async (req: Request, res: Response) => {
 export const updateBlogPost = async (req: Request, res: Response) => {
   try {
     const { blogPostId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid blog post id',
+      });
+    }
 
     const updatedData = {
       ...req.body,
@@ -45,6 +56,7 @@ export const updateBlogPost = async (req: Request, res: Response) => {
       .status(200)
       .json({ status: true, data: updatedBlogPost, message: 'Blog post updated successfully' });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: 'Error updating the blog post.' });
   }
 };
@@ -85,7 +97,7 @@ export const getAllBlogPosts = async (req: Request, res: Response) => {
     const response: GenericAnyType = {
       code: !!totalData ? 200 : 400,
       status: !!totalData ? !!ResponseCode.SUCCESS : !!ResponseCode.FAILURE,
-      message: !!totalData ? 'User fetch successful' : 'No user found',
+      message: !!totalData ? 'blog fetch successful' : 'No blog found',
       data: { meta: req.query.userId ? {} : meta, blogPosts },
     };
 
@@ -93,6 +105,7 @@ export const getAllBlogPosts = async (req: Request, res: Response) => {
 
     return res.status(response.code).json(rest);
   } catch (err: GenericAnyType) {
+    console.log(err);
     return res.status(err.statusCode || StatusCode.INTERNAL_SERVER_ERROR).json({
       status: !!ResponseCode.FAILURE,
       message: err.message || 'Server error',
@@ -102,7 +115,11 @@ export const getAllBlogPosts = async (req: Request, res: Response) => {
 
 export const getBlogPost = async (req: Request, res: Response) => {
   try {
-    const blogPostId = req.params.blogPostId;
+    const { blogPostId } = req.params;
+
+    if (!mongoose.isValidObjectId(blogPostId)) {
+      return res.status(400).json({ status: false, message: 'Invalid blog post id.' });
+    }
     const blogPost = await BlogService.getBlogPostById(blogPostId);
 
     if (!blogPost) {
@@ -119,6 +136,7 @@ export const getBlogPost = async (req: Request, res: Response) => {
       message: 'Blog post fetched successfully',
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: 'Error fetching blog post.' });
   }
 };
@@ -126,6 +144,14 @@ export const getBlogPost = async (req: Request, res: Response) => {
 export const createTagForBlogPost = async (req: Request, res: Response) => {
   try {
     const { blogPostId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid blog post id',
+      });
+    }
+
     const tagData = req.body;
 
     const post = await BlogService.getBlogPostById(blogPostId);
@@ -161,6 +187,14 @@ export const createTagForBlogPost = async (req: Request, res: Response) => {
 export const addTagToBlogPost = async (req: Request, res: Response) => {
   try {
     const { blogPostId, tagId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(blogPostId) || !mongoose.Types.ObjectId.isValid(tagId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid blog post id or tag id',
+      });
+    }
+
     const post = await BlogService.getBlogPostById(blogPostId);
 
     if (!post) {
@@ -188,6 +222,14 @@ export const addTagToBlogPost = async (req: Request, res: Response) => {
 export const editTag = async (req: Request, res: Response) => {
   try {
     const { tagId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(tagId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid tag post id',
+      });
+    }
+
     const updatedData = req.body;
     const updatedTag = await BlogService.updateTag(tagId, updatedData);
     return res
@@ -201,6 +243,14 @@ export const editTag = async (req: Request, res: Response) => {
 export const deleteTag = async (req: Request, res: Response) => {
   try {
     const { tagId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(tagId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid tag id',
+      });
+    }
+
     const tag = await BlogService.deleteTag(tagId);
 
     if (!tag) {
@@ -218,7 +268,16 @@ export const deleteTag = async (req: Request, res: Response) => {
 export const toggleLikeBlogPost = async (req: Request, res: Response) => {
   try {
     const { blogPostId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid blog post id',
+      });
+    }
+
     const isLiked = req.body.isLiked;
+
     const blog = await BlogService.getBlogPostById(blogPostId);
 
     if (!blog) {
@@ -229,7 +288,7 @@ export const toggleLikeBlogPost = async (req: Request, res: Response) => {
       return res.status(204).end();
     }
 
-    const noOfLikes = isLiked ? blog?.noOfLikes + 1 : blog?.noOfLikes - 1;
+    const noOfLikes = isLiked ? Number(blog?.noOfLikes) + 1 : Number(blog?.noOfLikes) - 1;
 
     await BlogService.updateBlogLike(String(blog?.blogLikesId), { noOfLikes });
 
@@ -248,6 +307,13 @@ export const getBlogPostLikes = async (req: Request, res: Response) => {
   try {
     const { blogPostId } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid blog post id',
+      });
+    }
+
     const likes = await BlogService.getBlogLikes(blogPostId);
 
     res.status(200).json({
@@ -264,6 +330,13 @@ export const getComments = async (req: Request, res: Response) => {
   try {
     const { blogPostId } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid blog post id',
+      });
+    }
+
     const comments = await BlogService.getBlogComments(blogPostId);
 
     res.status(200).json({
@@ -279,6 +352,14 @@ export const getComments = async (req: Request, res: Response) => {
 export const createCommentForBlogPost = async (req: Request, res: Response) => {
   try {
     const { blogPostId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid blog post id',
+      });
+    }
+
     const commentData = req.body;
 
     const blogPost = await BlogService.getBlogPostById(blogPostId);
@@ -309,6 +390,14 @@ export const createCommentForBlogPost = async (req: Request, res: Response) => {
 export const editComment = async (req: Request, res: Response) => {
   try {
     const { commentId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(commentId)) {
+      return res.status(404).json({
+        status: false,
+        message: 'Invalid comment id',
+      });
+    }
+
     const updatedData = req.body;
     const updatedComment = await BlogService.updateComment(commentId, updatedData);
     return res

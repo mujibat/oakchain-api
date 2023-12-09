@@ -34,7 +34,9 @@ export type CreateBlogPostType = {
 export type UpdateBlogPostType = {
   title?: string;
   description?: string;
-  image?: string;
+  image?: {
+    [key: string]: string;
+  };
   content?: string;
   noOfLikes?: number;
   blogLikesId?: string;
