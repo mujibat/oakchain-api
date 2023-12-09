@@ -13,8 +13,8 @@ export interface IssueInterface extends Document {
 }
 
 export type IssueCommentType = {
-  comment: string;
-  postedBy: string;
+  text: string;
+  user: string;
 };
 
 export enum status {
