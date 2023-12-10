@@ -24,7 +24,7 @@ class IssueService {
 
   async getIssueById(issueId: string) {
     try {
-      const issue = await Issue.findOne({ _id: issueId });
+      const issue = await Issue.findById(issueId);
       return issue;
     } catch (error) {
       throw new ApiError(
@@ -71,7 +71,7 @@ class IssueService {
 
   getAllIssues = async (data: IssueQueryType) => {
     try {
-      const query = createIssueQuery({}, data);
+      const query = await createIssueQuery({}, data);
       const limit = Number(data.limit) || 10;
       const page = Number(data.page) || 0;
 

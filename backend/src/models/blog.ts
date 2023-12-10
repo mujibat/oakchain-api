@@ -4,27 +4,21 @@ const BlogPostSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, 'Title is required.'],
     },
     description: {
       type: String,
-      required: [true, 'Description is required.'],
     },
     image: {
-      type: String,
-      required: [true, 'Image URL is required.'],
+      type: Object,
     },
     content: {
       type: String,
-      required: [true, 'Content is required.'],
     },
     noOfLikes: {
       type: Number,
-      required: [true, 'Number of likes is required.'],
     },
     blogLikesId: {
       type: mongoose.Types.ObjectId,
-      required: [true, 'BlogLikesId is required.'],
     },
     authorName: {
       type: String,

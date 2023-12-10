@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { mongoose } from '../models/helpers/imports';
 import { GenericAnyType, ResponseCode, StatusCode, IssueQueryType } from '../@types';
 import { SAMSON_CONFIGS, SAMSON_UTILS } from 'sm-pkjs/dist';
 import { IssueService } from '../service';
@@ -12,6 +13,15 @@ const {
 
 export async function createIssue(req: Request, res: Response) {
   try {
+    const { assignee, reporter } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(assignee) || !mongoose.Types.ObjectId.isValid(reporter)) {
+      return res.status(StatusCode.BAD_REQUEST).json({
+        status: !!ResponseCode.FAILURE,
+        message: 'Invalid user id for assignee or reporter',
+      });
+    }
+
     await IssueService.createIssue({
       ...req.body,
     });
@@ -65,13 +75,14 @@ export const listIssues = async (req: Request, res: Response) => {
       code: !!totalData ? 200 : 400,
       status: !!totalData ? !!ResponseCode.SUCCESS : !!ResponseCode.FAILURE,
       message: !!totalData ? 'Issue fetch successful' : 'No Issue found',
-      data: { meta: req.query.IssueId ? {} : meta, Issues },
+      data: { meta: req.query.issueId ? {} : meta, Issues },
     };
 
     const { code, ...rest } = response;
 
     return res.status(response.code).json(rest);
   } catch (err: GenericAnyType) {
+    console.log(err);
     return res.status(err.statusCode || StatusCode.INTERNAL_SERVER_ERROR).json({
       status: !!ResponseCode.FAILURE,
       message: err.message || 'Server error',
@@ -81,8 +92,19 @@ export const listIssues = async (req: Request, res: Response) => {
 
 export const getIssue = async (req: Request, res: Response) => {
   try {
-    const { IssueId } = req.params;
-    const Issue = await IssueService.getIssueById(IssueId);
+    const { issueId } = req.params;
+
+    console.log(issueId);
+
+    if (!mongoose.Types.ObjectId.isValid(issueId)) {
+      return res.status(StatusCode.BAD_REQUEST).json({
+        status: !!ResponseCode.FAILURE,
+        message: 'Invalid issue id',
+        data: null,
+      });
+    }
+
+    const Issue = await IssueService.getIssueById(issueId);
 
     if (!Issue) {
       return res.status(StatusCode.NOT_FOUND).json({
@@ -107,10 +129,10 @@ export const getIssue = async (req: Request, res: Response) => {
 
 export const updateIssue = async (req: Request, res: Response) => {
   try {
-    const { IssueId } = req.params;
+    const { issueId } = req.params;
     const updatedIssueData = req.body;
 
-    const updateIssue = await IssueService.updateIssue(IssueId, updatedIssueData);
+    const updateIssue = await IssueService.updateIssue(issueId, updatedIssueData);
 
     if (!updateIssue) {
       return res.status(StatusCode.NOT_FOUND).json({

@@ -10,7 +10,7 @@ const router = Router();
 
 router.use('/auth', auth);
 router.use('/user', authenticate, user);
-router.use('/issues', authenticate, issues);
+router.use('/issue', authenticate, issues);
 router.use('/blog', authenticate, blog);
 
 export default router;

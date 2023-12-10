@@ -85,9 +85,11 @@ class BlogPostService {
 
   findAllBlogPosts = async (data: BlogPostQueryType) => {
     try {
-      const query = createBlogPostQuery({}, data);
+      const query = await createBlogPostQuery({}, data);
       const limit = Number(data.limit) || 10;
       const page = Number(data.page) || 0;
+
+      console.log(query);
 
       const users = await BlogPostModel.find(query)
         .limit(limit)
@@ -98,7 +100,7 @@ class BlogPostService {
       throw new ApiError(
         'oak api',
         error as string,
-        'getAllUsers',
+        'findAllBlogPosts',
         StatusCode.INTERNAL_SERVER_ERROR
       );
     }
@@ -307,6 +309,20 @@ class BlogPostService {
       return blogTag;
     } catch (error) {
       throw new ApiError('oak api', error as string, 'updateTag', StatusCode.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async getTagById(tagId: string) {
+    try {
+      const blogTag = await BlogTagModel.findById(tagId);
+      return blogTag;
+    } catch (error) {
+      throw new ApiError(
+        'oak api',
+        error as string,
+        'getTagById',
+        StatusCode.INTERNAL_SERVER_ERROR
+      );
     }
   }
 
